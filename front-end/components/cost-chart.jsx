@@ -2,17 +2,9 @@
 
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js"
-
+import { useEffect, useState } from "react"
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
-const dados = [
-  { "data": "2024-02-01T00:00:00.000Z", "consumo_kwh": 300 },
-  { "data": "2024-01-01T00:00:00.000Z", "consumo_kwh": 320 },
-  { "data": "2023-12-01T00:00:00.000Z", "consumo_kwh": 310 },
-  { "data": "2023-11-01T00:00:00.000Z", "consumo_kwh": 280 },
-  { "data": "2023-10-01T00:00:00.000Z", "consumo_kwh": 290 },
-  { "data": "2023-09-01T00:00:00.000Z", "consumo_kwh": 270 }
-]
-const dadosfiltrados = dados.map((dado) => dado.consumo_kwh)
+
 const options = {
   responsive: true,
   plugins: {
@@ -39,18 +31,30 @@ const options = {
   },
 }
 
-const data = {
-  labels: ["Fev", "Jan", "Dez", "Nov", "Out", "Set"],
-  datasets: [
-    {
-      data: dadosfiltrados,
-      backgroundColor: "#3366FF",
-      borderRadius: 4,
-    },
-  ],
-}
 
 export function CostChart() {
+  const [dadosFiltrados, setDadosFiltrados] = useState([])
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/consumos/${2}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const dados = data.map((dado) => dado.consumo_kwh).slice(0, 6)
+        
+        setDadosFiltrados(dados)
+        
+      })
+  }, [])
+ console.log(dadosFiltrados)
+  const data = {
+    labels: ["Fev", "Jan", "Dez", "Nov", "Out", "Set"],
+    datasets: [
+      {
+        data: dadosFiltrados,
+        backgroundColor: "#3366FF",
+        borderRadius: 4,
+      },
+    ],
+  }
   return <Bar options={options} data={data} height={80} />
 }
 
