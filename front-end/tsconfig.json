@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/stats-cards.jsx", "components/clients-table.jsx", "components/header.jsx", "components/ui/table.jsx", "components/ui/input.jsx", "components/ui/card.jsx", "components/ui/button.jsx"],
   "exclude": ["node_modules"]
 }
